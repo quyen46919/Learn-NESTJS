@@ -6,7 +6,9 @@ import {
   Param,
   Post,
   Put,
+  UseFilters,
 } from '@nestjs/common';
+import { ExceptionLoggerFilter } from 'src/utils/exceptionLogger.filter';
 import { CreatePostDto, UpdatePostDto } from '../dto/post.dto';
 import { PostService } from '../services/post.service';
 
@@ -20,7 +22,8 @@ export class PostController {
   }
 
   @Get(':id')
-  async(@Param('id') id: string) {
+  @UseFilters(ExceptionLoggerFilter)
+  async getPostById(@Param('id') id: string) {
     return this.postService.getPostById(id);
   }
 
