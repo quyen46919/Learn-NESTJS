@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto, UpdatePostDto } from '../dto/post.dto';
+import { PostNotFoundException } from '../exceptions/postNotFound.exception';
 import { PostRepository } from '../repositories/post.repository';
 
 @Injectable()
@@ -10,8 +11,14 @@ export class PostService {
     return this.postRepository.findAll();
   }
 
-  getPostById(id: string) {
-    return this.postRepository.findByCondition(id);
+  async getPostById(id: string) {
+    const post = await this.postRepository.findById(id);
+    if (post) {
+      return post;
+    } else {
+      throw new PostNotFoundException(id);
+      // throw new NotFoundException(id);
+    }
   }
   createPost(post: CreatePostDto) {
     return this.postRepository.create(post);
