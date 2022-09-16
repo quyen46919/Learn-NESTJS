@@ -10,16 +10,16 @@ export class PostService {
     return this.postRepository.findAll();
   }
 
-  getPostById(id: number) {
+  getPostById(id: string) {
     return this.postRepository.findByCondition(id);
   }
   createPost(post: CreatePostDto) {
     return this.postRepository.create(post);
   }
-  replacePost(id: number, post: UpdatePostDto) {
+  replacePost(id: string, post: UpdatePostDto) {
     return this.postRepository.findByIdAndUpdate(id, post);
   }
-  deletePost(id: number) {
+  deletePost(id: string) {
     return this.postRepository.deleteOne(id);
   }
 }
